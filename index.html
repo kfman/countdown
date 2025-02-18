@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0c0f1a;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .countdown {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        .labels {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>DIE WAHLOKALE ÖFFNEN IN:</h2>
+        <div class="countdown" id="countdown">00:00:00:00</div>
+        <div class="labels">
+            <span>Tage(n)</span>
+            <span>Stunden</span>
+            <span>Minuten</span>
+            <span>Sekunden</span>
+        </div>
+    </div>
+    <script>
+        function startCountdown(targetDate) {
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const timeLeft = targetDate - now;
+                
+                if (timeLeft <= 0) {
+                    document.getElementById("countdown").innerHTML = "00:00:00:00";
+                    clearInterval(interval);
+                    return;
+                }
+                
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                
+                document.getElementById("countdown").innerHTML = 
+                    `${String(days).padStart(2, '0')}:${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+            
+            updateCountdown();
+            const interval = setInterval(updateCountdown, 1000);
+        }
+        
+        const targetDate = new Date();
+        targetDate.setDate(targetDate.getDate() + 4);
+        targetDate.setHours(targetDate.getHours() + 17);
+        targetDate.setMinutes(targetDate.getMinutes() + 32);
+        targetDate.setSeconds(targetDate.getSeconds() + 34);
+        
+        startCountdown(targetDate.getTime());
+    </script>
+</body>
+</html>
